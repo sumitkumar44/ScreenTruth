@@ -1,0 +1,159 @@
+<!DOCTYPE html><html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScreenTruth</title><style>
+
+body{
+background:#0f172a;
+font-family:Arial;
+color:white;
+display:flex;
+justify-content:center;
+padding:20px;
+}
+
+.container{
+max-width:400px;
+width:100%;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+h1{
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:none;
+margin-top:10px;
+margin-bottom:10px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+font-weight:bold;
+}
+
+.result-number{
+font-size:40px;
+font-weight:bold;
+text-align:center;
+}
+
+.message{
+text-align:center;
+color:#94a3b8;
+margin-top:8px;
+}
+
+ul{
+padding-left:20px;
+}
+
+.progress-bar{
+width:100%;
+height:10px;
+background:#334155;
+border-radius:10px;
+margin-top:12px;
+overflow:hidden;
+}
+
+.progress{
+height:100%;
+background:#22c55e;
+width:0%;
+}
+
+</style></head><body><div class="container"><h1>ScreenTruth</h1>
+<p style="text-align:center;color:#94a3b8;">
+See the hidden cost of your screen time
+</p><div class="card"><label>Hours spent on phone per day</label>
+
+<input id="hours" type="number" placeholder="e.g. 7"><button onclick="calculate()">Reveal My Screen Truth</button>
+
+</div><div id="result" style="display:none;"><div class="card">
+<p style="text-align:center;color:#94a3b8;">Your yearly screen time</p>
+<div id="days" class="result-number">0 days</div>
+<div id="message" class="message"></div><div class="progress-bar">
+<div id="lifeProgress" class="progress"></div>
+</div></div><div class="card">
+<h3>🫀 Health Impact</h3>
+<ul id="health"></ul>
+</div><div class="card">
+<h3>🌍 Dreams Impact</h3>
+<ul id="dreams"></ul>
+</div></div></div><script>
+
+function animateNumber(targetDays){
+
+let current = 0
+let element = document.getElementById("days")
+
+let interval = setInterval(function(){
+
+current += targetDays / 30
+
+if(current >= targetDays){
+current = targetDays
+clearInterval(interval)
+}
+
+element.innerText = current.toFixed(1) + " days per year"
+
+},30)
+
+}
+
+function calculate(){
+
+let hours=document.getElementById("hours").value
+
+if(!hours) return
+
+let yearlyHours=hours*365
+let days=(yearlyHours/24)
+
+animateNumber(days)
+
+let months=(days/30).toFixed(1)
+
+document.getElementById("message").innerText=
+"That's about "+months+" months of your life every year."
+
+let lifePercent=(yearlyHours/(24*365))*100
+
+document.getElementById("lifeProgress").style.width=lifePercent+"%"
+
+
+document.getElementById("health").innerHTML=
+"<li>"+Math.round(yearlyHours/3)+" workouts</li>"+
+"<li>"+Math.round(yearlyHours/2)+" km walking or running</li>"+
+"<li>"+Math.round(yearlyHours/7)+" nights of better sleep</li>"
+
+
+document.getElementById("dreams").innerHTML=
+"<li>"+Math.round(yearlyHours/15)+" books you could read</li>"+
+"<li>Learn a new professional skill</li>"+
+"<li>Start a side project or business</li>"+
+"<li>Travel and explore new places</li>"
+
+
+document.getElementById("result").style.display="block"
+
+}
+
+</script></body>
+</html>
